@@ -1,0 +1,108 @@
+public class GreatestCommonDenominator {
+
+	public static int recursiveCount;
+	public static double recAverage;
+
+	public static void main(String[] args) {
+
+		int recXHigh = 0;
+		int recYHigh = 0;
+		int recXLow = 0;
+		int recYLow = 0;
+		int itXHigh = 0;
+		int itYHigh = 0;
+		int itXLow = 0;
+		int itYLow = 0;
+		int smallNum;
+		int itGCD = 0;
+		int itCount = 0;
+		int itHigh = 0;
+		int itLow = 999999;
+		double itAverage = 0;
+		int array[][] = new int[100][2];
+		int recGCD = 0;
+		int mostRec = 0;
+		int lowRec = 999999;
+		int itHighGCD = 0;
+		int itLowGCD = 0;
+		int recHighGCD = 0;
+		int recLowGCD = 0;
+
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 2; j++) {
+				array[i][j] = (int) (Math.random() * ((40000 - 4000) + 1)) + 4000;
+			}
+		}
+
+		for (int i = 0; i < array.length; i++) {
+
+			smallNum = Math.min(array[i][0], array[i][1]);
+			itGCD = 0;
+			itCount = 0;
+
+			for (int j = smallNum; j >= 1; j--) {
+				itCount++;
+				itAverage++;
+				if (array[i][0] % j == 0 && array[i][1] % j == 0) {
+					if (j >= itGCD) {
+						itGCD = j;
+						break;
+					}
+				}
+			}
+			if (itCount > itHigh) {
+				itHigh = itCount;
+				itXHigh = array[i][0];
+				itYHigh = array[i][1];
+				itHighGCD = itGCD;
+			}
+			if (itCount < itLow) {
+				itLow = itCount;
+				itXLow = array[i][0];
+				itYLow = array[i][1];
+				itLowGCD = itGCD;
+			}
+//			System.out.println("Iterative Count is: " + itCount + " for GCD: " + array[i][0] + ", " +
+//					array[i][1] + " = " + itGCD);
+		}
+		System.out.println("The most number of iterative used is: " + itHigh + " for GCD (" + itXHigh + ", " + itYHigh
+				+ ") = " + itHighGCD);
+		System.out.println("The low number of iterative used is: " + itLow + " for GCD (" + itXLow + ", " + itYLow
+				+ ") = " + itLowGCD);
+		System.out.println("The average number of iterative used for all 100 pairs is: " + (itAverage / 100));
+		System.out.println("");
+
+		for (int i = 0; i < array.length; i++) {
+			recursiveCount = 0;
+			recGCD = gcd(array[i][0], array[i][1]);
+			if (recursiveCount > mostRec) {
+				mostRec = recursiveCount;
+				recXHigh = array[i][0];
+				recYHigh = array[i][1];
+				recHighGCD = recGCD;
+			}
+			if (recursiveCount < lowRec) {
+				lowRec = recursiveCount;
+				recXLow = array[i][0];
+				recYLow = array[i][1];
+				recLowGCD = recGCD;
+			}
+//			System.out.println("Recursive count is: " + recursiveCount + " GCD " 
+//			+ array[i][0] + ", " + array[i][1] + " = " + recGCD);
+		}
+		System.out.println("The most number of recursive used is: " + mostRec + " for GCD " + recXHigh + ", " + recYHigh
+				+ " = " + recHighGCD);
+		System.out.println("The low number of recursive used is: " + lowRec + " for GCD " + recXLow + ", " + recYLow
+				+ " = " + recLowGCD);
+		System.out.println("The average number of recursive used for all 100 pairs is: " + (recAverage / 100));
+	}
+
+	public static int gcd(int x, int y) {
+		recursiveCount++;
+		recAverage++;
+		if (y == 0) {
+			return x;
+		}
+		return gcd(y, x % y);
+	}
+}
